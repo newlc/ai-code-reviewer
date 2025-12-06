@@ -1,0 +1,66 @@
+# Full Repository Review workflow
+# This workflow reviews the entire codebase on-demand (not just PR diffs)
+# Place this file in .github/workflows/full-review.yml
+#
+# Features:
+# - Manual trigger via GitHub Actions UI
+# - Configurable paths to review
+# - Multi-language support for responses
+# - Creates GitHub Issue with review results
+# - Supports all AI providers (OpenAI, Anthropic, etc.)
+
+name: Full Repository Review
+
+on:
+  # Manual trigger with options
+  workflow_dispatch:
+    inputs:
+      paths:
+        description: 'Paths to review (comma-separated, e.g., "src/,lib/")'
+        required: false
+        default: 'src/'
+      language:
+        description: 'Review language'
+        required: false
+        default: 'en'
+        type: choice
+        options:
+          - en
+          - ru
+          - es
+          - de
+          - fr
+          - zh
+          - ja
+
+jobs:
+  full-review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: AI Full Repository Review
+        uses: newlc/ai-code-reviewer@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          
+          # Choose your AI provider (at least one required)
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          # anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # grok-api-key: ${{ secrets.GROK_API_KEY }}
+          # gemini-api-key: ${{ secrets.GEMINI_API_KEY }}
+          
+          # Full review mode settings
+          mode: full
+          paths: ${{ github.event.inputs.paths }}
+          output-type: issue  # Creates GitHub Issue with results
+          
+          # Language for response
+          language: ${{ github.event.inputs.language }}
+          
+          # Optional: fail if critical issues found
+          # fail-on-critical: true

@@ -1,0 +1,79 @@
+name: 'AI Code Reviewer'
+description: 'Automated AI-powered code review for your pull requests'
+author: 'Anton Bukarev'
+
+branding:
+  icon: 'code'
+  color: 'purple'
+
+inputs:
+  github-token:
+    description: 'GitHub token for PR comments'
+    required: true
+
+  # AI Provider API Keys (at least one required)
+  openai-api-key:
+    description: 'OpenAI API key'
+    required: false
+  anthropic-api-key:
+    description: 'Anthropic (Claude) API key'
+    required: false
+  grok-api-key:
+    description: 'Grok (xAI) API key'
+    required: false
+  gemini-api-key:
+    description: 'Google Gemini API key'
+    required: false
+  ollama-url:
+    description: 'Ollama server URL (e.g., http://localhost:11434)'
+    required: false
+
+  # Model configuration
+  model:
+    description: 'AI model to use (e.g., gpt-5.1, gpt-4o, claude-3-5-sonnet-20241022, gemini-1.5-pro)'
+    required: false
+    default: 'gpt-5.1'
+
+  # Behavior options
+  fail-on-critical:
+    description: 'Fail the action if critical issues are found'
+    required: false
+    default: 'false'
+
+  config-path:
+    description: 'Path to the configuration file'
+    required: false
+    default: '.github/ai-review-config.yml'
+
+  language:
+    description: 'Language for review comments (en, ru, es, de, zh, ja, fr, pt)'
+    required: false
+    default: 'en'
+
+  mode:
+    description: 'Review mode: "pr" for pull request diff, "full" for entire repository'
+    required: false
+    default: 'pr'
+
+  paths:
+    description: 'Paths to review in full mode (comma-separated, e.g., "src/,lib/")'
+    required: false
+    default: 'src/'
+
+  output-type:
+    description: 'Output type for full mode: "issue" creates GitHub issue, "comment" posts as PR comment, "summary" outputs to action summary'
+    required: false
+    default: 'issue'
+
+outputs:
+  review-comment-id:
+    description: 'ID of the review comment posted'
+  issues-found:
+    description: 'Number of issues found'
+  critical-issues:
+    description: 'Number of critical issues found'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
+

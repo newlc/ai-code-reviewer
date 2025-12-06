@@ -1,0 +1,68 @@
+# Example AI Code Reviewer configuration
+# Place this file in .github/ai-review-config.yml
+
+# AI Model settings
+temperature: 0.3          # Lower = more focused, Higher = more creative
+max_tokens: 4000          # Max response length
+
+# Review behavior
+language: en              # en, ru, es, de, zh, ja, fr, pt
+review_mode: detailed     # quick, detailed, comprehensive
+
+# Focus areas (enable/disable)
+focus:
+  security: true          # SQL injection, XSS, etc.
+  performance: true       # N+1 queries, memory leaks
+  best_practices: true    # Design patterns, clean code
+  code_style: true        # Consistency, naming
+  documentation: false    # Comments, JSDoc
+  testing: true           # Test coverage, edge cases
+
+# Severity levels to report
+severity:
+  critical: true          # 🔴 Must fix
+  warning: true           # 🟡 Should fix
+  suggestion: true        # 🟢 Nice to have
+  nitpick: false          # 🔵 Minor style issues
+
+# File filters
+ignore:
+  - "*.min.js"
+  - "*.min.css"
+  - "*.lock"
+  - "package-lock.json"
+  - "yarn.lock"
+  - "pnpm-lock.yaml"
+  - "**/node_modules/**"
+  - "**/dist/**"
+  - "**/build/**"
+  - "**/vendor/**"
+  - "**/generated/**"
+  - "**/*.d.ts"
+
+# If set, only review files matching these patterns
+# include_only:
+#   - "src/**"
+#   - "lib/**"
+
+# Limits
+max_files: 20             # Max files per review
+max_diff_size: 5000       # Max diff lines to analyze
+max_file_size: 1000       # Skip files larger than this
+
+# Custom instructions for the AI reviewer
+custom_prompt: |
+  You are reviewing code for a production application.
+  
+  Pay special attention to:
+  - Security vulnerabilities (SQL injection, XSS, CSRF)
+  - Performance issues (N+1 queries, memory leaks)
+  - Error handling and edge cases
+  - Code maintainability and readability
+  
+  Our coding standards:
+  - Use TypeScript strict mode
+  - Prefer functional components with hooks
+  - All public functions must have JSDoc comments
+  - Use const over let when possible
+
