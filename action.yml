@@ -1,4 +1,4 @@
-name: 'AI PR Code Reviewer'
+name: 'Multi-AI Code Quality Analyzer'
 description: 'Automated AI-powered code review for GitHub pull requests with inline comments'
 author: 'Anton Bukarev'
 
