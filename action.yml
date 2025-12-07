@@ -1,5 +1,5 @@
-name: 'AI Code Reviewer'
-description: 'Automated AI-powered code review for your pull requests'
+name: 'AI PR Code Reviewer'
+description: 'Automated AI-powered code review for GitHub pull requests with inline comments'
 author: 'Anton Bukarev'
 
 branding:
